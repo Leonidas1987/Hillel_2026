@@ -13,7 +13,7 @@ CARS_URL = f"{BASE_URL}/cars"
 LOG_FILE = Path(__file__).resolve().parent / "test_search.log"
 
 
-# Настраиваем логирование в консоль и файл
+# создание логирование в консоль и файл
 logger = logging.getLogger("cars_api_tests")
 logger.setLevel(logging.INFO)
 logger.propagate = False
