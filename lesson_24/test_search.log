@@ -1,0 +1,25 @@
+2026-10-15 21:40:47,667 - INFO - Starting API authentication
+2026-10-15 21:40:47,681 - INFO - Authentication response: 200
+2026-10-15 21:40:47,681 - INFO - Authentication successful
+2026-10-15 21:40:47,681 - INFO - Searching cars: sort_by=price, limit=5
+2026-10-15 21:40:47,685 - INFO - GET http://127.0.0.1:8080/cars?sort_by=price&limit=5 returned status 200
+2026-10-15 21:40:47,686 - INFO - Test passed: returned 5 cars, sorted by price
+2026-10-15 21:40:47,687 - INFO - Searching cars: sort_by=year, limit=3
+2026-10-15 21:40:47,689 - INFO - GET http://127.0.0.1:8080/cars?sort_by=year&limit=3 returned status 200
+2026-10-15 21:40:47,689 - INFO - Test passed: returned 3 cars, sorted by year
+2026-10-15 21:40:47,690 - INFO - Searching cars: sort_by=brand, limit=4
+2026-10-15 21:40:47,692 - INFO - GET http://127.0.0.1:8080/cars?sort_by=brand&limit=4 returned status 200
+2026-10-15 21:40:47,692 - INFO - Test passed: returned 4 cars, sorted by brand
+2026-10-15 21:40:47,693 - INFO - Searching cars: sort_by=engine_volume, limit=6
+2026-10-15 21:40:47,695 - INFO - GET http://127.0.0.1:8080/cars?sort_by=engine_volume&limit=6 returned status 200
+2026-10-15 21:40:47,696 - INFO - Test passed: returned 6 cars, sorted by engine_volume
+2026-10-15 21:40:47,696 - INFO - Searching cars: sort_by=None, limit=2
+2026-10-15 21:40:47,698 - INFO - GET http://127.0.0.1:8080/cars?limit=2 returned status 200
+2026-10-15 21:40:47,699 - INFO - Test passed: returned 2 cars, sorted by brand
+2026-10-15 21:40:47,700 - INFO - Searching cars: sort_by=price, limit=None
+2026-10-15 21:40:47,702 - INFO - GET http://127.0.0.1:8080/cars?sort_by=price returned status 200
+2026-10-15 21:40:47,702 - INFO - Test passed: returned 25 cars, sorted by price
+2026-10-15 21:40:47,704 - INFO - Searching cars: sort_by=year, limit=10
+2026-10-15 21:40:47,707 - INFO - GET http://127.0.0.1:8080/cars?sort_by=year&limit=10 returned status 200
+2026-10-15 21:40:47,707 - INFO - Test passed: returned 10 cars, sorted by year
+2026-10-15 21:40:47,707 - INFO - API session closed
