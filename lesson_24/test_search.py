@@ -1,19 +1,13 @@
-
 import logging
 from pathlib import Path
-
 import pytest
-import requests
-from requests.auth import HTTPBasicAuth
+
+from auth import api_session
+from controller import CarsController
 
 
-BASE_URL = "http://127.0.0.1:8080"
-AUTH_URL = f"{BASE_URL}/auth"
-CARS_URL = f"{BASE_URL}/cars"
 LOG_FILE = Path(__file__).resolve().parent / "test_search.log"
 
-
-# создание логирование в консоль и файл
 logger = logging.getLogger("cars_api_tests")
 logger.setLevel(logging.INFO)
 logger.propagate = False
@@ -27,56 +21,14 @@ if not logger.handlers:
     console_handler.setFormatter(formatter)
 
     file_handler = logging.FileHandler(
-        LOG_FILE, mode="w", encoding="utf-8"
+        LOG_FILE,
+        mode="w",
+        encoding="utf-8",
     )
     file_handler.setFormatter(formatter)
 
     logger.addHandler(console_handler)
     logger.addHandler(file_handler)
-
-
-@pytest.fixture(scope="class")
-def api_session(request):
-    session = requests.Session()
-
-    try:
-        logger.info("Starting API authentication")
-
-        response = session.post(
-            AUTH_URL,
-            auth=HTTPBasicAuth("test_user", "test_pass"),
-            timeout=10,
-        )
-
-        logger.info(
-            "Authentication response: %s",
-            response.status_code,
-        )
-
-        assert response.status_code == 200, (
-            f"Authentication failed: {response.text}"
-        )
-
-        access_token = response.json().get("access_token")
-        assert access_token, "Access token was not returned"
-
-        session.headers.update({
-            "Authorization": f"Bearer {access_token}"
-        })
-
-        request.cls.session = session
-
-        logger.info("Authentication successful")
-
-        yield session
-
-    except Exception:
-        logger.exception("API session setup failed")
-        raise
-
-    finally:
-        session.close()
-        logger.info("API session closed")
 
 
 @pytest.mark.usefixtures("api_session")
@@ -95,13 +47,7 @@ class TestCarsSearch:
         ],
     )
     def test_search_cars(self, sort_by, limit):
-        params = {}
-
-        if sort_by is not None:
-            params["sort_by"] = sort_by
-
-        if limit is not None:
-            params["limit"] = limit
+        controller = CarsController(self.session)
 
         logger.info(
             "Searching cars: sort_by=%s, limit=%s",
@@ -109,22 +55,19 @@ class TestCarsSearch:
             limit,
         )
 
-        response = self.session.get(
-            CARS_URL,
-            params=params,
-            timeout=10,
+        response = controller.search_cars(
+            sort_by=sort_by,
+            limit=limit,
         )
 
         logger.info(
-            "GET %s returned status %s",
-            response.url,
+            "GET /cars returned status %s",
             response.status_code,
         )
 
         assert response.status_code == 200
 
         cars = response.json()
-
         assert isinstance(cars, list)
 
         expected_count = limit if limit is not None else 25
